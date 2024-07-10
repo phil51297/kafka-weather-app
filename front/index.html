@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Kafka App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Kafka Application</h1>
+        <div id="producer-section">
+            <h2>Producer Dashboard</h2>
+            <input type="text" id="cityInput" placeholder="Enter city name">
+            <button onclick="sendWeatherData()">Fetch and Send Weather Data</button>
+            <p id="producerMessage"></p>
+        </div>
+        <div id="consumer-section">
+            <h2>Consumer Dashboard</h2>
+            <button onclick="fetchWeatherData()">Fetch Weather Data</button>
+            <div id="weatherData"></div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
