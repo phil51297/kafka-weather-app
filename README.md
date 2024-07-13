@@ -55,10 +55,6 @@ Once the containers are up and running, the frontend can be accessed at http://l
 * **Weather Data Fetching (back/weather.py)**: Contains logic to fetch weather data from an external API.
 * **Cassandra Integration (back/cassandra_util.py)**: Manages the connection to Cassandra and operations related to weather data storage and retrieval.
 
-## Database Schema
-
-The application uses a Cassandra database to store weather data. The schema is defined as follows:
-
 ### Frontend
 
 * **Nginx (front/Dockerfile)**: Serves the static files and proxies API requests to the backend.
