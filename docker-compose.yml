@@ -20,6 +20,20 @@ services:
     depends_on:
       - zookeeper
 
+  cassandra:
+    image: cassandra:latest
+    ports:
+      - "9042:9042"
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+      - ./back/init.cql:/init.cql
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        while ! cqlsh -e "describe cluster"; do sleep 2; done;
+        cqlsh -f /init.cql;
+        exec /docker-entrypoint.sh cassandra -f
+
   backend:
     build: ./back
     ports:
@@ -31,6 +45,7 @@ services:
       - KAFKA_GROUP_ID=${KAFKA_GROUP_ID}
     depends_on:
       - kafka
+      - cassandra 
 
   frontend:
     build: ./front
@@ -38,6 +53,10 @@ services:
       - "80:80"
     depends_on:
       - backend
+
+
+volumes:
+  cassandra_data:
     
 networks:
   default:
