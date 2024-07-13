@@ -2,3 +2,4 @@ Flask
 kafka-python
 python-dotenv
 requests
+cassandra-driver

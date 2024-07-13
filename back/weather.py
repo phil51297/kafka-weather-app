@@ -16,4 +16,5 @@ def fetch_current_weather(location_key):
 def fetch_weather_data(city_name):
     location_key = fetch_location_key(city_name)
     weather_data = fetch_current_weather(location_key)
+    weather_data['city'] = city_name
     return weather_data
