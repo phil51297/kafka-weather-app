@@ -1,9 +1,14 @@
 const sendWeatherData = () => {
     const cityName = document.getElementById('cityInput').value;
     fetch(`/api/produce?city=${cityName}`)
-        .then(response => response.json())
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
         .then(data => {
-            document.getElementById('producerMessage').innerText = data.message;
+            document.getElementById('producerMessage').innerText = "Weather data successfully sent!";
         })
         .catch(error => console.error('Error:', error));
 };
