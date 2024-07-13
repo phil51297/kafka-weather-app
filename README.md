@@ -25,15 +25,17 @@ KAFKA_TOPIC = "weather_data"
 KAFKA_GROUP_ID = "weather_consumer_group"
 ```
 
-Replace <Your_Weather_API_Key> with your actual API key for the weather service.
+Replace `<Your_Weather_API_Key>` with your actual API key for the weather service.
 
 ## Running the Application
 
-Build and Run Containers
+### Build and Run Containers
 
 1. Use Docker Compose to build and run the application:
 
-```docker-compose up --build```
+```bash
+docker-compose up --build
+```
 
 2. Accessing the Frontend
 
@@ -41,13 +43,14 @@ Once the containers are up and running, the frontend can be accessed at http://l
 
 ## Architecture
 
-**Backend**
+### Backend
 
--Flask Application (back/app.py): Defines routes for producing and consuming weather data.
--Kafka Producer & Consumer: Uses kafka-python to interact with Kafka topics.
--Weather Data Fetching (back/weather.py): Contains logic to fetch weather data from an external API.
+* **Flask Application (back/app.py)**: Defines routes for producing and consuming weather data.
+* **Kafka Producer & Consumer**: Uses kafka-python to interact with Kafka topics.
+* **Weather Data Fetching (back/weather.py)**: Contains logic to fetch weather data from an external API.
 
-**Frontend**
--Nginx (front/Dockerfile): Serves the static files and proxies API requests to the backend.
--HTML & CSS (front/index.html, front/style.css): Defines the structure and style of the web interface.
--JavaScript (front/app.js): Handles user interactions and API requests.
+### Frontend
+
+* **Nginx (front/Dockerfile)**: Serves the static files and proxies API requests to the backend.
+* **HTML & CSS (front/index.html, front/style.css)**: Defines the structure and style of the web interface.
+* **JavaScript (front/app.js)**: Handles user interactions and API requests.
