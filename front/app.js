@@ -26,13 +26,13 @@ const fetchWeatherData = () => {
 document.getElementById("produceForm").onsubmit = async (event) => {
   event.preventDefault();
   const city = document.getElementById("city").value;
-  const response = await fetch(`http://backend:5000/api/produce?city=${city}`);
+  const response = await fetch(`http://backend:5001/api/produce?city=${city}`);
   const data = await response.json();
   document.getElementById("produceResult").innerText = JSON.stringify(data, null, 2);
 };
 
 document.getElementById("consumeButton").onclick = async () => {
-  const response = await fetch('http://backend:5000/api/consume');
+  const response = await fetch('http://backend:5001/api/consume');
   const data = await response.json();
   document.getElementById("consumeResult").innerText = JSON.stringify(data, null, 2);
 };
