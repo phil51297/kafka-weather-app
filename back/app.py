@@ -1,5 +1,6 @@
 from cassandra_util import get_cassandra_session
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from kafka import KafkaProducer, KafkaConsumer
 from kafka.errors import KafkaError
 from environment import KAFKA_BROKER, KAFKA_TOPIC, KAFKA_GROUP_ID
@@ -7,6 +8,7 @@ from weather import fetch_weather_data
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/produce', methods=['GET'])
 def produce_weather_data():
@@ -68,20 +70,41 @@ def consume_weather_data():
 
     return jsonify(weather_data)
 
-@app.route('/weather/<city>', methods=['GET'])
-def get_weather_data(city):
+@app.route('/cities', methods=['GET'])
+def get_cities():
+    try:
+        session = get_cassandra_session()
+        query = "SELECT DISTINCT city FROM weather_data"
+        rows = session.execute(query)
+        cities = [row.city for row in rows]
+        app.logger.info(f"Retrieved cities: {cities}")
+        return jsonify(cities)
+    except Exception as e:
+        app.logger.error(f"Error retrieving cities: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/weather', methods=['GET'])
+def get_weather():
+    city = request.args.get('city')
+    if not city:
+        return jsonify({"error": "City parameter is required"}), 400
+    
     session = get_cassandra_session()
     query = "SELECT * FROM weather_data WHERE city = %s"
     rows = session.execute(query, (city,))
-    data = []
-    for row in rows:
-        data.append({"city": row.city, "temperature": row.temperature, "description": row.description, "epoch_time": row.epoch_time, "has_precipitation": row.has_precipitation})
+    data = [{
+        "city": row.city,
+        "temperature": row.temperature,
+        "description": row.description,
+        "epoch_time": row.epoch_time,
+        "has_precipitation": row.has_precipitation
+    } for row in rows]
+    
     if data:
         return jsonify(data)
     else:
         return jsonify({"error": "No weather data found for the specified city"}), 404
 
-#TO DO  
 @app.route('/delete_weather/<city>', methods=['DELETE'])
 def delete_weather_data(city):
     session = get_cassandra_session()
@@ -89,22 +112,5 @@ def delete_weather_data(city):
     session.execute(query, (city,))
     return jsonify({"message": f"Weather data for {city} has been deleted."})
 
-#Function to fetch data from Cassandra
-def fetch_data_from_cassandra(city_name):
-    session = get_cassandra_session()
-    query = "SELECT * FROM weather_data WHERE city = %s"
-    rows = session.execute(query, (city_name,))
-    for row in rows:
-        print(row.city, row.temperature, row.description, row.epoch_time, row.has_precipitation)
-
-@app.route('/weather_data/<city>', methods=['GET'])
-def get_weather_data_from_cassandra(city):
-    # Assuming fetch_data_from_cassandra returns a dictionary or similar structure
-    weather_data = fetch_data_from_cassandra(city)
-    if weather_data:
-        return jsonify(weather_data)
-    else:
-        return jsonify({"error": "Data not found"}), 404
-    
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
