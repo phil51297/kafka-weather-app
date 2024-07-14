@@ -1,5 +1,6 @@
 from cassandra_util import get_cassandra_session
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from kafka import KafkaProducer, KafkaConsumer
 from kafka.errors import KafkaError
 from environment import KAFKA_BROKER, KAFKA_TOPIC, KAFKA_GROUP_ID
@@ -7,6 +8,7 @@ from weather import fetch_weather_data
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/produce', methods=['GET'])
 def produce_weather_data():
