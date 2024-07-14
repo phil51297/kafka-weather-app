@@ -22,7 +22,7 @@
         />
         <button
           class="mt-4 mb-2 w-full"
-          hx-get="http://backend:5001/api/produce"
+          hx-get="/api/produce"
           hx-trigger="click"
           hx-vals="js:{city: document.getElementById('cityInput').value}"
           hx-target="#producerMessage"
@@ -35,7 +35,7 @@
         <h2 class="text-xl font-bold">Consumer Dashboard</h2>
         <button
           class="mt-4 mb-2 w-full"
-          hx-get="http://backend:5001/api/consume"
+          hx-get="/api/consume"
           hx-trigger="click"
           hx-target="#weatherData"
         >
