@@ -73,7 +73,6 @@ htmx.on("#weatherDataCassandra", "htmx:afterSettle", function (event) {
         <p><strong>Precipitation:</strong> ${
           weather.has_precipitation ? "Yes" : "No"
         }</p>
-        <hr>
       `;
       weatherDataDiv.appendChild(weatherDiv);
     });
