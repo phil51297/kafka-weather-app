@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Kafka App</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <script
+      src="https://unpkg.com/htmx.org@2.0.1"
+      integrity="sha384-QWGpdj554B4ETpJJC9z+ZHJcA/i59TyjxEPXiiUgN2WmTyV5OEZWCD6gQhgkdpB/"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body
     class="bg-gray-100 font-sans p-8"
@@ -25,15 +29,20 @@
           placeholder="Enter city name"
         />
         <button
-          class="mt-4 mb-2 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          class="mt-4 mb-2 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
           hx-get="/api/produce"
           hx-trigger="click"
           hx-vals="js:{city: document.getElementById('cityInput').value}"
           hx-target="#producerMessage"
+          hx-indicator="#producerMessage"
         >
           Fetch and Send Weather Data
+          <img
+            id="producerMessage"
+            class="htmx-indicator inline-block"
+            src="https://raw.githubusercontent.com/n3r4zzurr0/svg-spinners/main/preview/ring-resize-black-36.svg"
+          />
         </button>
-        <span id="producerMessage" class=""></span>
       </div>
       <div class="mt-8" id="consumer-section">
         <h2 class="text-xl font-bold">Consumer Dashboard</h2>
@@ -46,6 +55,11 @@
           disabled
         >
           Fetch Weather Data
+          <img
+            id="weatherData"
+            class="htmx-indicator inline-block"
+            src="https://raw.githubusercontent.com/n3r4zzurr0/svg-spinners/main/preview/ring-resize-black-36.svg"
+          />
         </button>
         <div id="weatherData" class="mt-4 mb-2 w-full"></div>
       </div>
