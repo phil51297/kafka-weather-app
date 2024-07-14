@@ -8,7 +8,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/htmx.org@1.9.2"></script>
   </head>
-  <body class="bg-gray-100 font-sans p-8">
+  <body
+    class="bg-gray-100 font-sans p-8"
+    hx-trigger="load"
+    hx-get="/api/cities"
+    hx-target="#citySelect"
+  >
     <div class="container mx-auto">
       <h1 class="text-3xl font-bold">Weather Kafka Application</h1>
       <div class="mt-8" id="producer-section">
@@ -42,6 +47,20 @@
           Fetch Weather Data
         </button>
         <div id="weatherData" class="mt-4 mb-2 w-full"></div>
+      </div>
+      <div class="mt-8" id="weather-data-cassandra-section">
+        <h2 class="text-xl font-bold">Weather Data from Cassandra</h2>
+        <select
+          id="citySelect"
+          class="mt-4 mb-2 w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 focus:outline-none focus:border-blue-500"
+          hx-get="/api/weather"
+          hx-trigger="change"
+          hx-target="#weatherDataCassandra"
+          name="city"
+        >
+          <option value="">Select a city</option>
+        </select>
+        <div id="weatherDataCassandra" class="mt-4 mb-2 w-full"></div>
       </div>
     </div>
     <script src="app.js"></script>
