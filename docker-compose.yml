@@ -26,14 +26,6 @@ services:
       - "9042:9042"
     volumes:
       - cassandra_data:/var/lib/cassandra
-      - ./back/init.cql:/init.cql
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        while ! cqlsh -e "describe cluster"; do sleep 2; done;
-        cqlsh -f /init.cql;
-        exec /docker-entrypoint.sh cassandra -f
-
   backend:
     build: ./back
     ports:
@@ -58,6 +50,7 @@ services:
 
 volumes:
   cassandra_data:
+    driver: local
 
 networks:
   default:
