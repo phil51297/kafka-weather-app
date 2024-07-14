@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   zookeeper:
     image: docker.io/bitnami/zookeeper:3.9
@@ -37,7 +37,7 @@ services:
   backend:
     build: ./back
     ports:
-      - "5001:5001"  
+      - "5001:5001"
     environment:
       - WEATHER_API_KEY=${WEATHER_API_KEY}
       - KAFKA_BROKER=${KAFKA_BROKER}
@@ -45,7 +45,7 @@ services:
       - KAFKA_GROUP_ID=${KAFKA_GROUP_ID}
     depends_on:
       - kafka
-      - cassandra 
+      - cassandra
 
   frontend:
     build: ./front
@@ -53,11 +53,12 @@ services:
       - "80:80"
     depends_on:
       - backend
-
+    volumes:
+      - ./front:/usr/share/nginx/html
 
 volumes:
   cassandra_data:
-    
+
 networks:
   default:
     driver: bridge
