@@ -1,3 +1,5 @@
+let fetchWeatherDataBtn = document.getElementById("fetchWeatherDataBtn");
+
 htmx.on("#weatherData", "htmx:afterSettle", function (event) {
   try {
     const data = JSON.parse(event.detail.xhr.response);
@@ -31,6 +33,8 @@ htmx.on("#producerMessage", "htmx:afterSettle", function (event) {
     const data = JSON.parse(event.detail.xhr.response);
     document.getElementById("producerMessage").innerText =
       data.message || "Weather data successfully sent!";
+
+    fetchWeatherDataBtn.disabled = false;
   } catch (error) {
     console.error("Error parsing producer response:", error);
   }
