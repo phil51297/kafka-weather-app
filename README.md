@@ -42,7 +42,32 @@ Replace `<Your_Weather_API_Key>` with your actual API key from the Accuweather A
 docker-compose up --build
 ```
 
-2. Accessing the Frontend
+2. Access the Cassandra container's shell:
+   ```bash
+   docker exec -it kafka-weather-app-cassandra-1 bash
+   ```
+
+3. Start `cqlsh` to interact with Cassandra:
+   ```bash
+   cqlsh
+   ```
+
+4. Execute the commands in `cassandra-init/init.cql` to create the keyspace and table. For example:
+   ```cql
+   CREATE KEYSPACE IF NOT EXISTS weather WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+   USE weather;
+   CREATE TABLE IF NOT EXISTS weather_data (
+     city text PRIMARY KEY,
+     temperature double, 
+     description text,
+     epoch_time bigint,
+     has_precipitation boolean
+   );
+   ```
+
+This setup is mandatory for the application to store and retrieve weather data correctly.
+
+5. Accessing the Frontend
 
 Once the containers are up and running, the frontend can be accessed at http://localhost.
 
