@@ -5,7 +5,20 @@ htmx.on("#weatherData", "htmx:afterSettle", function (event) {
     weatherDataDiv.innerHTML = "";
     data.forEach((weather) => {
       const weatherDiv = document.createElement("div");
-      weatherDiv.innerText = JSON.stringify(weather, null, 2);
+      weatherDiv.innerHTML = `
+        <p><strong>City:</strong> ${weather.city}</p>
+        <p><strong>Temperature:</strong> ${weather.Temperature.Metric.Value}°${
+        weather.Temperature.Metric.Unit
+      }</p>
+        <p><strong>Description:</strong> ${weather.WeatherText}</p>
+        <p><strong>Time:</strong> ${new Date(
+          weather.EpochTime * 1000
+        ).toLocaleString()}</p>
+        <p><strong>Precipitation:</strong> ${
+          weather.HasPrecipitation ? "Yes" : "No"
+        }</p>
+        <p><strong>Day Time:</strong> ${weather.IsDayTime ? "Yes" : "No"}</p>
+      `;
       weatherDataDiv.appendChild(weatherDiv);
     });
   } catch (error) {
