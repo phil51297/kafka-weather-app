@@ -26,6 +26,8 @@ services:
       - "9042:9042"
     volumes:
       - cassandra_data:/var/lib/cassandra
+      - ./cassandra-init:/docker-entrypoint-initdb.d
+      
   backend:
     build: ./back
     ports:
