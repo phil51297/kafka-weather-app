@@ -14,14 +14,14 @@
       <div class="mt-8" id="producer-section">
         <h2 class="text-xl font-bold">Producer Dashboard</h2>
         <input
-          class="mt-4 mb-2 w-full"
+          class="mt-4 mb-2 w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 focus:outline-none focus:border-blue-500"
           type="text"
           id="cityInput"
           name="city"
           placeholder="Enter city name"
         />
         <button
-          class="mt-4 mb-2 w-full"
+          class="mt-4 mb-2 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           hx-get="/api/produce"
           hx-trigger="click"
           hx-vals="js:{city: document.getElementById('cityInput').value}"
@@ -34,7 +34,7 @@
       <div class="mt-8" id="consumer-section">
         <h2 class="text-xl font-bold">Consumer Dashboard</h2>
         <button
-          class="mt-4 mb-2 w-full"
+          class="mt-4 mb-2 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           hx-get="/api/consume"
           hx-trigger="click"
           hx-target="#weatherData"
