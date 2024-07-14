@@ -13,7 +13,6 @@ def produce_weather_data():
     city_name = request.args.get('city')
     weather_data = fetch_weather_data(city_name)
 
-    # Check if weather data is retrieved successfully
     if not weather_data:
         return jsonify({"error": "Failed to fetch weather data for city."}), 400
     
@@ -90,9 +89,6 @@ def delete_weather_data(city):
     session.execute(query, (city,))
     return jsonify({"message": f"Weather data for {city} has been deleted."})
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5001)
-
 #Function to fetch data from Cassandra
 def fetch_data_from_cassandra(city_name):
     session = get_cassandra_session()
@@ -109,3 +105,6 @@ def get_weather_data_from_cassandra(city):
         return jsonify(weather_data)
     else:
         return jsonify({"error": "Data not found"}), 404
+    
+if __name__ == '__main__':
+    app.run(debug=True, port=5001)
